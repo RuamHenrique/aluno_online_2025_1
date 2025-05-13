@@ -1,8 +1,8 @@
-package alunoonline.alunoonline.service;
+package br.com.alunoonline.api.service;
 
 import alunoonline.alunoonline.enums.MatriculaAlunoStatusEnum;
-import alunoonline.alunoonline.model.MatriculaAluno;
-import alunoonline.alunoonline.repository.MatriculaAlunoRepository;
+import br.com.alunoonline.api.model.MatriculaAluno;
+import br.com.alunoonline.api.repository.MatriculaAlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

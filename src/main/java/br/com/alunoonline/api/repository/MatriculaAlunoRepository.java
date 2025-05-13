@@ -1,6 +1,6 @@
-package alunoonline.alunoonline.repository;
+package br.com.alunoonline.api.repository;
 
-import alunoonline.alunoonline.model.MatriculaAluno;
+import br.com.alunoonline.api.model.MatriculaAluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

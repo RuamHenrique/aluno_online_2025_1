@@ -1,7 +1,7 @@
-package alunoonline.alunoonline.controller;
+package br.com.alunoonline.api.controller;
 
-import alunoonline.alunoonline.model.MatriculaAluno;
-import alunoonline.alunoonline.service.MatriculaAlunoService;
+import br.com.alunoonline.api.model.MatriculaAluno;
+import br.com.alunoonline.api.service.MatriculaAlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
