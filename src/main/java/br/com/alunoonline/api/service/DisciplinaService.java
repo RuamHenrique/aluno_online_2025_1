@@ -1,9 +1,10 @@
-package br.com.alunoonline.api.service;
+package alunoonline.alunoonline.service;
 
-
-import br.com.alunoonline.api.model.Aluno;
-import br.com.alunoonline.api.model.Disciplina;
-import br.com.alunoonline.api.repository.DisciplinaRepository;
+import alunoonline.alunoonline.model.Aluno;
+import alunoonline.alunoonline.model.Disciplina;
+import alunoonline.alunoonline.model.Professor;
+import alunoonline.alunoonline.repository.DisciplinaRepository;
+import alunoonline.alunoonline.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,45 +16,47 @@ import java.util.Optional;
 @Service
 public class DisciplinaService {
 
-
     @Autowired
     DisciplinaRepository disciplinaRepository;
 
-    public void criarDisciplina(Disciplina disciplina) {
+    public void criarDisciplina(Disciplina disciplina){
         disciplinaRepository.save(disciplina);
 
-
     }
 
-    public void deletarDisciplinaPorId(Long id) {
-        disciplinaRepository.deleteById(id);
-    }
-
-    public Optional<Disciplina> buscarDisciplinaPorId(Long id) {
-        return disciplinaRepository.findById(id);
-    }
-
-    public List<Disciplina> listarTodasDisciplinas() {
+    public List<Disciplina> listarTodasDisciplinas(){
         return disciplinaRepository.findAll();
     }
 
-    public void atualizarDisciplinaPorId(Long id, Disciplina disciplina) {
-        //primeiro passo: ver se a disciplina existe no BD
-        Optional<Disciplina> disciplinaDoBancodeDados = buscarDisciplinaPorId(id);
+    public Optional<Disciplina> buscarDisciplinaPorId(Long id){
+        return disciplinaRepository.findById(id);
+    }
 
-        // e se nao existir essa disciplina?
-        if (disciplinaDoBancodeDados.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Disciplina nao encontrada no Banco de dados");
+    public void deletarDisciplinaPorId(Long id){
+        Optional<Disciplina> disciplina = disciplinaRepository.findById(id);
+        if (disciplina.isPresent()){
+            disciplinaRepository.deleteById(id);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Não encontrado a disciplina");
         }
-        // se chegar aqui, siginfica que existe com esse id
-        // vou armazenar em uma variavel par edita-lo
+    }
 
-        Disciplina disciplinaParaEditar = disciplinaDoBancodeDados.get();
+    public void atualizarDisciplinaPorId(Long id, Disciplina disciplina){
+        Optional<Disciplina> disciplinaDoBancoDeDados = buscarDisciplinaPorId(id);
+
+        if (disciplinaDoBancoDeDados.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Disciplina não encontrada no Banco de Dados");
+        }
+
+        Disciplina disciplinaParaEditar = disciplinaDoBancoDeDados.get();
+
         disciplinaParaEditar.setNome(disciplina.getNome());
+        disciplinaParaEditar.setCargaHoraria(disciplina.getCargaHoraria());
 
         disciplinaRepository.save(disciplinaParaEditar);
     }
 
-
+    public List<Disciplina> listarDisciplinasDoProf(Long professorId) {
+        return disciplinaRepository.findByProfessorId(professorId);
+    }
 }

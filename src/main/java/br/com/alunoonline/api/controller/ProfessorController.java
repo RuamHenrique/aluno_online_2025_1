@@ -1,9 +1,9 @@
-package br.com.alunoonline.api.controller;
 
+package alunoonline.alunoonline.controller;
 
-import br.com.alunoonline.api.model.Aluno;
-import br.com.alunoonline.api.model.Professor;
-import br.com.alunoonline.api.service.ProfessorService;
+import alunoonline.alunoonline.model.Aluno;
+import alunoonline.alunoonline.model.Professor;
+import alunoonline.alunoonline.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/professores")
+@RequestMapping("/professorescasa")
 public class ProfessorController {
 
     @Autowired
@@ -20,35 +20,32 @@ public class ProfessorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarProfessor(@RequestBody Professor professor){
+    public void criarProfessor(@RequestBody Professor professor) {
         professorService.criarProfessor(professor);
-
-
     }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Professor> listarTodosProfessor() {
+    public List<Professor> listarTodosProfessores() {
         return professorService.listarTodosProfessores();
-
     }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Professor> buscarProfessorPorId(@PathVariable Long id){
+    public Optional<Professor> buscarProfessorPorId(@PathVariable Long id) {
         return professorService.buscarProfessorPorId(id);
-
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarProfessorPorId(@PathVariable Long id) {
-
         professorService.deletarProfessorPorId(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizarProfessorPorId(@PathVariable Long id, @RequestBody Professor professor) {
+    public void atualizarProfessorPorId(@PathVariable Long id,
+                                        @RequestBody Professor professor) {
         professorService.atualizarProfessorPorId(id, professor);
-
     }
 }

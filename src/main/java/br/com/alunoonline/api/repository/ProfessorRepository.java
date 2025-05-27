@@ -1,7 +1,6 @@
-package br.com.alunoonline.api.repository;
+package alunoonline.alunoonline.repository;
 
-
-import br.com.alunoonline.api.model.Professor;
+import alunoonline.alunoonline.model.Professor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

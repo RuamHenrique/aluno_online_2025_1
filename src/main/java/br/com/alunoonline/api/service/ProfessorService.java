@@ -1,9 +1,8 @@
-package br.com.alunoonline.api.service;
+package alunoonline.alunoonline.service;
 
-
-import br.com.alunoonline.api.model.Aluno;
-import br.com.alunoonline.api.model.Professor;
-import br.com.alunoonline.api.repository.ProfessorRepository;
+import alunoonline.alunoonline.model.Aluno;
+import alunoonline.alunoonline.model.Professor;
+import alunoonline.alunoonline.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,17 +16,13 @@ public class ProfessorService {
 
     @Autowired
     ProfessorRepository professorRepository;
-    private Professor professor;
 
-    public void criarProfessor(Professor professor) {
-        professorRepository.save(professor);
-
-
+    public Professor criarProfessor(Professor professor) {
+        return professorRepository.save(professor);
     }
 
     public List<Professor> listarTodosProfessores() {
         return professorRepository.findAll();
-
     }
 
     public Optional<Professor> buscarProfessorPorId(Long id) {
@@ -35,20 +30,28 @@ public class ProfessorService {
     }
 
     public void deletarProfessorPorId(Long id) {
-        professorRepository.deleteById(id);
+        Optional<Professor> professor = professorRepository.findById(id);
+        if (professor.isPresent()) {
+            professorRepository.delete(professor.get());
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Professor não encontrado");
+        }
     }
 
     public void atualizarProfessorPorId(Long id, Professor professor) {
-        this.professor = professor;
-        //primeiro passo: ver se o professor existe no BD
-        Optional<Professor> professorDoBancodeDados = buscarProfessorPorId(id);
-
-        // e se nao existir esse professor?
-        if (professorDoBancodeDados.isEmpty()) {
+        Optional<Professor> professorDoBancoDeDados = buscarProfessorPorId(id);
+        if (professorDoBancoDeDados.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Professor nao encontrado no Banco de dados");
-
+                    "Professor não encontrado no banco de dados");
         }
 
+        Professor professorParaEditar = professorDoBancoDeDados.get();
+
+        professorParaEditar.setNome(professor.getNome());
+        professorParaEditar.setCpf(professor.getCpf());
+        professorParaEditar.setEmail(professor.getEmail());
+        professorParaEditar.setId(professor.getId());
+        professorRepository.save(professorParaEditar);
     }
 }

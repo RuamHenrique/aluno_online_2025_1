@@ -1,16 +1,19 @@
-package br.com.alunoonline.api.controller;
+package alunoonline.alunoonline.controller;
 
-import br.com.alunoonline.api.model.Aluno;
-import br.com.alunoonline.api.service.AlunoService;
+
+import alunoonline.alunoonline.model.Aluno;
+import alunoonline.alunoonline.service.AlunoService;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/alunos")
+@RequestMapping("/alunoscasa")
 public class AlunoController {
 
     @Autowired
@@ -24,14 +27,20 @@ public class AlunoController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Aluno> listarTodosAlunos(){
+    public List<Aluno> listarTodosAlunos() {
         return alunoService.listarTodosAlunos();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Aluno> buscarAlunoPorId(@PathVariable Long id){
+    public Optional<Aluno> buscarAlunoPorId(@PathVariable Long id) {
         return alunoService.buscarAlunoPorId(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarAlunoPorId(@PathVariable Long id) {
+        alunoService.deletarAlunoPorId(id);
     }
 
     @PutMapping("/{id}")
